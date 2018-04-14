@@ -4,9 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Barcode.WhatsappAgent"
+        xmlns:local1="clr-namespace:Barcode.WhatsappAgent.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="250" Width="525">
+
+    <Window.DataContext>
+        <local1:BarcodeWhatsappAgentViewModel/>
+    </Window.DataContext>
+    
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="300*"></ColumnDefinition>
+            
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="80*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Name     : " Grid.Row="1" Grid.Column="1" FontSize="16" VerticalAlignment="top" HorizontalAlignment="Left" FontFamily="Arial Black"></TextBlock>
+        <TextBlock Text="{Binding Path=PrintName, Mode=OneWay}" Grid.Row="1" Grid.Column="2" FontSize="16" VerticalAlignment="Top"></TextBlock>
+
+        <TextBlock Text="Address : " Grid.Row="2" Grid.Column="1" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Arial Black"></TextBlock>
+        <TextBlock Text="{Binding Path=PrintAddress, Mode=OneWay}" Grid.Row="2" Grid.Column="2" FontSize="16" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
+
+        <Button x:Name="Clear" Content="Reset"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" FontSize="16" HorizontalAlignment="Right" Command="{Binding Path=ClearCommand}" Width="100" Height="30" Margin="120,0"/>
+        <Button x:Name="Send" Content="Send"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" FontSize="16" HorizontalAlignment="Right" Command="{Binding Path=SendCommand}" Width="100" Height="30"/>
+
     </Grid>
 </Window>
