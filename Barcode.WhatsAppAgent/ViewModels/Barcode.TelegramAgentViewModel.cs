@@ -7,13 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Barcode.WhatsappAgent.Commands;
-using Barcode.WhatsappAgent.Models;
+using Barcode.TelegramAgent.Models;
+using Barcode.TelegrampAgent.Commands;
 using ZXing;
 
-namespace Barcode.WhatsappAgent.ViewModels
+namespace Barcode.TelegramAgent.ViewModels
 {
-    class BarcodeWhatsappAgentViewModel : ViewModelBase
+    class BarcodeTelegramAgentViewModel : ViewModelBase
     {
         private string printName;
         private string printAddress;
@@ -24,7 +24,7 @@ namespace Barcode.WhatsappAgent.ViewModels
         private Thread thread;
 
 
-        public BarcodeWhatsappAgentViewModel()
+        public BarcodeTelegramAgentViewModel()
         {
             var PersonList = new List<PersonObject>();
             PersonList.Add(new PersonObject() { PersonBarcode = "123456", Name = "Zaim", Address = "1730, Jalan Koperasi, Sungai Kechil, 14300 Nibong Tebal, Pulau Pinang" });
@@ -32,6 +32,8 @@ namespace Barcode.WhatsappAgent.ViewModels
             personList = PersonList;
             thread = new Thread(GetPerson);
             thread.Start();
+            //GetPerson();
+            //MessageBox.Show("test");
         }
 
         public string PrintName
@@ -89,7 +91,7 @@ namespace Barcode.WhatsappAgent.ViewModels
             {
                 if (sendCommand == null)
                 {
-                    sendCommand = new DelegateCommand(isSend);
+                    sendCommand = new DelegateCommand(isSend, CanClear);
                 }
                 return sendCommand;
             }
@@ -97,71 +99,19 @@ namespace Barcode.WhatsappAgent.ViewModels
 
         private void isSend()
         {
-            
+            var SendMessageObject = new MethodsViewModel();
+            SendMessageObject.sendMessage(PrintName, PrintAddress);
+            MessageBox.Show("Data Sent");
 
-        }
-
-        public string getBarCode()
-        {
-            //VideoCapture capture = new VideoCapture();
-            string Result = null;
-
-            while (Result == null)
-            {
-
-                //var image = capture.QueryFrame();
-                //Bitmap barcodeBitmap = image.ToImage<Bgr, Byte>().Bitmap; //Convert the emgu Image to BitmapImage 
-                //barcodeBitmap.Save("test.bmp");
-                Bitmap barcodeBitmap = new Bitmap("C:\\test.bmp");
-
-                // create a barcode reader instance
-                IBarcodeReader reader = new BarcodeReader();
-                //var result = reader.Decode(barcodeBitmap);
-                var result = "12345678";
-                if (result != null)
-                {
-                    //Result = result.Text.ToString();
-                    Result = result;
-                }
-
-            }
-            //capture.Dispose();
-            return Result;
-        }
-
-        public PersonObject isSearch(List<PersonObject> _personList)
-        {
-            string Barcode = getBarCode();
-            var personObject = new PersonObject();
-            bool isExist = false;
-            foreach (var person in _personList)
-            {
-                if (person.PersonBarcode == Barcode)
-                {
-                    personObject.Name = person.Name;
-                    personObject.Address = person.Address;
-                    isExist = true;
-                }
-
-            }
-
-            if (isExist)
-            {
-                return personObject;
-            }
-
-            else
-            {
-                return null;
-            }
         }
 
         public void GetPerson()
         {
+            var GetSearchObject = new MethodsViewModel();
             bool isPersonExist = false;
             while (isPersonExist == false)
             {
-            var Person = isSearch(personList);
+            var Person = GetSearchObject.isSearch(personList);
             if (Person != null)
             {
                 PrintName = Person.Name;
@@ -171,7 +121,8 @@ namespace Barcode.WhatsappAgent.ViewModels
             }
             else
             {
-                MessageBox.Show("No Record");
+                MessageBox.Show("NO RECORD, TRY AGAIN!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             }
 
             }

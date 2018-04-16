@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Barcode.WhatsappAgent
+namespace Barcode.TelegrampAgent
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

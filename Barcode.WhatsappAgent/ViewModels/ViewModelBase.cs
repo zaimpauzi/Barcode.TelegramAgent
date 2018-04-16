@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Barcode.WhatsappAgent.ViewModels
+namespace Barcode.TelegramAgent.ViewModels
 {
     /// <summary>
     /// Provides common functionality for ViewModel class
