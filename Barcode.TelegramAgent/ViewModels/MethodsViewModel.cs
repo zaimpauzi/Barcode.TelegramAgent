@@ -7,6 +7,8 @@ using Telegram.Bot;
 using Barcode.TelegramAgent.Models;
 using System.Drawing;
 using ZXing;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace Barcode.TelegramAgent.ViewModels
 {
@@ -17,29 +19,29 @@ namespace Barcode.TelegramAgent.ViewModels
 
         public string getBarCode()
         {
-            //VideoCapture capture = new VideoCapture();
+            VideoCapture capture = new VideoCapture();
             string Result = null;
 
             while (Result == null)
             {
 
-                //var image = capture.QueryFrame();
-                //Bitmap barcodeBitmap = image.ToImage<Bgr, Byte>().Bitmap; //Convert the emgu Image to BitmapImage 
+                var image = capture.QueryFrame();
+                Bitmap barcodeBitmap = image.ToImage<Bgr, Byte>().Bitmap; //Convert the emgu Image to BitmapImage 
                 //barcodeBitmap.Save("test.bmp");
-                Bitmap barcodeBitmap = new Bitmap("C:\\test.bmp");
+                //Bitmap barcodeBitmap = new Bitmap("C:\\test.bmp");
 
                 // create a barcode reader instance
                 IBarcodeReader reader = new BarcodeReader();
-                //var result = reader.Decode(barcodeBitmap);
-                var result = "123456";
+                var result = reader.Decode(barcodeBitmap);
+                //var result = "123456";
                 if (result != null)
                 {
-                    //Result = result.Text.ToString();
-                    Result = result;
+                    Result = result.Text.ToString();
+                    //Result = result;
                 }
 
             }
-            //capture.Dispose();
+            capture.Dispose();
             return Result;
         }
 
